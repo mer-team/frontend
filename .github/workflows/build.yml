@@ -1,0 +1,40 @@
+name: frontend React CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    env:
+      MQHOST: localhost
+
+    steps:
+    - name: Checkout wave2image Project
+      uses: actions/checkout@v2
+    
+    - name: Build Local wave2image Docker Image
+      run: docker build -t wave2image:latest .
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install --also=dev
+      working-directory: src
+
+    - name: Running tests
+      run: npm test
+      working-directory: src
+      env:
+        CI: true
+
+    - name: Dump docker logs on failure
+      if: failure()
+      uses: jwalton/gh-docker-logs@v1
