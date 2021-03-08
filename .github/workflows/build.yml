@@ -1,0 +1,47 @@
+name: frontend React CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+    - name: Checkout frontend Project
+      uses: actions/checkout@v2
+    
+    - name: Build Local frontend Dev Docker Image
+      run: docker build -f dev.Dockerfile -t frontend:dev .
+
+    - name: Run Local frontend Dev Docker Image
+      run: docker run -d --net=host frontend:dev
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install --also=dev
+      working-directory: src
+
+    #- name: Running tests
+    #  run: npm test
+    #  working-directory: src
+    #  env:
+    #    CI: true
+
+    - name: Check the docker image service URL
+      uses: jtalk/url-health-check-action@v1.5
+      with:
+        url: http://localhost:3000
+        max-attempts: 3
+        retry-delay: 5s
+
+    - name: Dump docker logs on failure
+      if: failure()
+      uses: jwalton/gh-docker-logs@v1
