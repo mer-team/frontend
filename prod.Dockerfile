@@ -1,5 +1,6 @@
 FROM node:12-alpine as build
 
+# Change this to the API URL
 ARG URL_API=localhost:8000
 
 COPY ./src /frontend

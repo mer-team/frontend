@@ -1,14 +1,15 @@
 FROM node:12-alpine
 
-ARG URL_API=localhost:8000
+# Change this to the API URL
+ARG URL_API=192.168.49.2:30080
+
+ENV REACT_APP_URL_API $URL_API
 
 COPY ./src /frontend
 
 WORKDIR /frontend
 
 ENV PATH /frontend/nodeModules/.bin:$PATH
-
-RUN sed -i '/REACT_APP_URL_API=/c\REACT_APP_URL_API='$URL_API .env
 
 RUN npm install
 
