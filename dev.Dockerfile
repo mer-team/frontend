@@ -1,8 +1,7 @@
 FROM node:12-alpine
 
 # Change this to the API URL
-ARG URL_API=192.168.49.2:30080
-
+ARG URL_API=localhost:8000
 ENV REACT_APP_URL_API $URL_API
 
 COPY ./src /frontend
