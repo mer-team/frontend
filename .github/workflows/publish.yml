@@ -1,9 +1,6 @@
 name: Publish frontend Prod/Dev Docker image
 
 on:
-  push:
-    branches:
-      - master
   release:
     types: [published]
 
@@ -33,7 +30,7 @@ jobs:
         with:
           push: true
           file: prod.Dockerfile
-          tags: merteam/frontend:latest,merteam/frontend:prod
+          tags: merteam/frontend:latest,merteam/frontend:prod,merteam/frontend:prod${{ github.event.release.tag_name }}
           build-args: URL_API=${{ env.URL_API }}
       - name: Build & Push Dev Image to Docker Hub
         id: docker_build_dev
@@ -41,7 +38,7 @@ jobs:
         with:
           push: true
           file: dev.Dockerfile
-          tags: merteam/frontend:dev
+          tags: merteam/frontend:dev,merteam/frontend:dev${{ github.event.release.tag_name }}
           build-args: URL_API=${{ env.URL_API }}
       - name: Update Image Overview
         uses: meeDamian/sync-readme@v1.0.6
