@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      URL_API: 192.168.49.2:30080 #minikube
+      # URL_API: 192.168.49.2:30080 #minikube
+      URL_API: emotube.dei.uc.pt
 
     steps:
       - name: Checkout frontend Project
