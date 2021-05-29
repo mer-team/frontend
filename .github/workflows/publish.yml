@@ -69,6 +69,7 @@ jobs:
         run: echo ${{ steps.docker_build_prod.outputs.digest }}
 
   update_image:
+    needs: [dev_push_to_registry, prod_push_to_registry]
     name: Update Image Overview
     runs-on: ubuntu-latest
 
