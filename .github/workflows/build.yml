@@ -17,10 +17,17 @@ jobs:
     - name: Build Local frontend Dev Docker Image
       run: docker build -f dev.Dockerfile -t frontend:dev .
 
-    - name: DEV Container Image Scan
-      uses: azure/container-scan@v0
+    #- name: DEV Container Image Scan
+    #  uses: azure/container-scan@v0
+    #  with:
+    #    image-name: frontend:dev
+
+    - name: DEV Snyk Container Image Scan
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image-name: frontend:dev
+        image: frontend:dev
 
     - name: Run Local frontend Dev Docker Image
       run: docker run -d -p 3001:3000 frontend:dev
@@ -74,10 +81,17 @@ jobs:
     - name: Build Local frontend Prod Docker Image
       run: docker build -f prod.Dockerfile -t frontend:prod .
 
-    - name: PROD Container Image Scan
-      uses: azure/container-scan@v0
+    #- name: PROD Container Image Scan
+    #  uses: azure/container-scan@v0
+    #  with:
+    #    image-name: frontend:prod
+
+    - name: PROD Snyk Container Image Scan
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image-name: frontend:prod
+        image: frontend:prod
 
     - name: Run Local frontend PROD Docker Image
       run: docker run -d -p 3001:80 frontend:prod
