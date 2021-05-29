@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   devbuild:
+    name: Build and test DEV frontend
     runs-on: ubuntu-latest
 
     strategy:
@@ -68,6 +69,7 @@ jobs:
       uses: jwalton/gh-docker-logs@v1
 
   prodbuild:
+    name: Build and test PROD frontend
     runs-on: ubuntu-latest
 
     strategy:
