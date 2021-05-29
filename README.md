@@ -18,29 +18,29 @@ The values are defined on the publish.yml file from the GitHub Actions
 `80` - Prod Frontend
 
 ### Run Local Microservice
-Build local `frontend` from source
+Build local `frontend` PROD image from source
 ```
 docker build --build-arg URL_API=192.168.49.2:30080 -f prod.Dockerfile -t frontendprod:local .
 ```
-OR
+Build local `frontend` DEV image from source
 ```
 docker build --build-arg URL_API=192.168.49.2:30080 -f dev.Dockerfile -t frontenddev:local .
 ```
 
-Run local `frontend`
+Run local `frontend` PROD image
 ```
-docker run --net=host -v "Soundwaves:/Soundwaves" frontendprod:local
+docker run --net=host -v "<Local DIR>:/Soundwaves" frontendprod:local
 ```
-OR 
+Run local `frontend` DEV image
 ```
-docker run --net=host -v "Soundwaves:/Soundwaves" frontenddev:local
+docker run --net=host frontenddev:local
 ```
 
-Run official `frontend` image locally
+Run official `frontend` PROD image locally
 ```
-docker run --net=host -v "Soundwaves:/Soundwaves" merteam/frontend:prod
+docker run --net=host -v "<Local DIR>:/Soundwaves" merteam/frontend:prod
 ```
-OR
+Run official `frontend` DEV image locally
 ```
-docker run --net=host -v "Soundwaves:/Soundwaves" merteam/frontend:dev
+docker run --net=host merteam/frontend:dev
 ```
