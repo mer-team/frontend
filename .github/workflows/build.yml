@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   devbuild:
-    needs: checkout
     runs-on: ubuntu-latest
 
     strategy:
@@ -62,7 +61,6 @@ jobs:
       uses: jwalton/gh-docker-logs@v1
 
   prodbuild:
-    needs: checkout
     runs-on: ubuntu-latest
 
     strategy:
